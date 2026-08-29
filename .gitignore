@@ -1,0 +1,22 @@
+# Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments & IDEs
+venv/
+.venv/
+ENV/
+.vscode/
+.idea/
+
+# Local Environment Variables & DBs
+.env
+*.db
+*.sqlite3
+
+# Pytest & Cache
+.pytest_cache/
+.coverage
+htmlcov/
