@@ -1,0 +1,4 @@
+Explain the concept below for a student in clear, plain language. Build from intuition, connect it to the supplied context, and include a small concrete example when useful. Avoid claiming information not present in the context.
+
+Concept or result: {{concept}}
+Context: {{context}}
