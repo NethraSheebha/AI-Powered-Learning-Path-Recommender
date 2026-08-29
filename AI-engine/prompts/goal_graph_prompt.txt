@@ -1,8 +1,0 @@
-Convert the learner goal below into a practical prerequisite learning graph.
-
-Goal: {{goal}}
-
-Return JSON only (no Markdown). Use this shape:
-{"goal":"...","nodes":[{"id":"unique-short-id","title":"...","description":"...","prerequisites":["node-id"],"difficulty":"beginner|intermediate|advanced","estimated_hours":number,"resources":["specific resource or resource type"]}]}
-
-Include at least one node. Every prerequisite must reference another node ID in nodes. Keep recommendations realistic and do not invent credentials or completed work.
