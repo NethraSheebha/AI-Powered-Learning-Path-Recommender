@@ -15,6 +15,7 @@ import {
   ArrowRight,
   CheckCircle2,
   XCircle,
+  Ruler,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { api } from '../services/api';
@@ -163,6 +164,7 @@ export default function NodeDetailPanel() {
 
   const node = nodeDetail || selectedNodeData || {};
   const resources = node.resources || [];
+  const rubric = node.rubric || [];
   const quizQuestions = node.quiz_questions || [];
   const isLocked = node.status === 'locked';
 
@@ -338,6 +340,28 @@ export default function NodeDetailPanel() {
                 </div>
               )}
 
+              {/* Rubric Criteria Section */}
+              {rubric.length > 0 && (
+                <div className="ndp-section">
+                  <h4 className="ndp-section-title">
+                    <Ruler size={14} /> Evaluation Rubric
+                  </h4>
+                  <div className="ndp-rubric-list">
+                    {rubric.map((r, i) => (
+                      <div key={i} className="ndp-rubric-card">
+                        <div className="ndp-rubric-head">
+                          <span className="ndp-rubric-crit">{r.criterion}</span>
+                          <span className="ndp-rubric-score">{r.max_points} pts</span>
+                        </div>
+                        {r.description && (
+                          <p className="ndp-rubric-desc">{r.description}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Assessment / Quiz Section */}
               {!isLocked && (
                 <div className="ndp-section">
@@ -510,9 +534,12 @@ export default function NodeDetailPanel() {
 
                   {/* Project Repo Submission */}
                   <form onSubmit={handleProjectSubmit} className="ndp-project-form">
+                    <p className="ndp-project-hint">
+                      Submit a repository link (e.g. GitHub URL) to be evaluated against the module rubric.
+                    </p>
                     <input
                       type="text"
-                      placeholder="Project repo URL"
+                      placeholder="Project repo URL (e.g. https://github.com/...)"
                       value={projectUrl}
                       onChange={(e) => setProjectUrl(e.target.value)}
                       className="ndp-project-input"
@@ -693,6 +720,16 @@ export default function NodeDetailPanel() {
             .ndp-res-meta {
               font-size: 11px; color: var(--stardust); margin-left: auto;
             }
+            .ndp-rubric-list { display: flex; flex-direction: column; gap: var(--space-2); }
+            .ndp-rubric-card {
+              padding: var(--space-3); background: var(--stardust-20);
+              border-radius: var(--radius-sm); border: 1px solid var(--stardust-30);
+              display: flex; flex-direction: column; gap: 4px;
+            }
+            .ndp-rubric-head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; color: var(--starlight); }
+            .ndp-rubric-score { color: var(--pulsar); font-size: 12px; }
+            .ndp-rubric-desc { font-size: 12px; color: var(--stardust); line-height: 1.4; }
+            .ndp-project-hint { font-size: 12px; color: var(--stardust); line-height: 1.4; margin-bottom: 2px; }
             .ndp-quiz-launch { width: 100%; }
             .ndp-action-btn {
               display: flex; align-items: center; justify-content: center; gap: var(--space-2);

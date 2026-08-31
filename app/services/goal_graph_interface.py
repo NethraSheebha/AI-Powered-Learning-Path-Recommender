@@ -172,31 +172,36 @@ def generate_graph_from_goal(goal_text: str, learner_id: str, db: Session) -> Gr
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: Core Fundamentals",
             "description": "Master basic syntax, foundational data structures, and environmental setup.",
-            "status": "available",  # First node with no prerequisites is available
+            "status": "available",
+            "resource_url": "https://developer.mozilla.org/en-US/docs/Learn",
         },
         {
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: Core Concepts & Protocols",
             "description": "Understand communication protocols, APIs, and key programmatic abstractions.",
             "status": "locked",
+            "resource_url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview",
         },
         {
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: Data Persistence & SQL",
             "description": "Design relational schemas, manage databases, and optimize query execution.",
             "status": "locked",
+            "resource_url": "https://www.postgresql.org/docs/current/tutorial-sql.html",
         },
         {
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: Advanced Frameworks & Services",
             "description": "Build production-grade web services with dependency injection and error handling.",
             "status": "locked",
+            "resource_url": "https://fastapi.tiangolo.com/tutorial/",
         },
         {
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: System Capstone Project",
             "description": "Implement a full end-to-end distributed system matching industry standards.",
             "status": "locked",
+            "resource_url": "https://github.com/topics/full-stack",
         },
     ]
 
@@ -221,7 +226,7 @@ def generate_graph_from_goal(goal_text: str, learner_id: str, db: Session) -> Gr
             }],
             resources=[{
                 "title": f"Guide to {tpl['label']}",
-                "url": "https://docs.ai-learning-path.ai/guide",
+                "url": tpl.get("resource_url", "https://developer.mozilla.org/en-US/docs/Learn"),
                 "type": "documentation",
                 "duration_minutes": 60
             }],
