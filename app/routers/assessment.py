@@ -12,6 +12,37 @@ from app.schemas.evidence import (
     ProjectSubmitRequest,
     ProjectSubmitResponse,
 )
+<<<<<<< HEAD
+=======
+
+PASS_RATIO = 0.70
+
+
+def grade_quiz_answers(quiz_questions, answers) -> tuple:
+    """Compare selected_option_index to correct_option_index. Pass if >= 70% correct."""
+    questions = quiz_questions or []
+    if not questions:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="This node has no quiz questions to grade.",
+        )
+
+    by_id = {q.get("id"): q for q in questions if isinstance(q, dict) and q.get("id")}
+    selected = {item.question_id: item.selected_option_index for item in answers}
+
+    correct_count = 0
+    for qid, question in by_id.items():
+        expected = question.get("correct_option_index")
+        if qid in selected and selected[qid] == expected:
+            correct_count += 1
+
+    total = len(by_id)
+    ratio = (correct_count / total) if total else 0.0
+    passed = ratio >= PASS_RATIO
+    return passed, ratio
+
+
+>>>>>>> main
 from app.mocks.mock_data import get_mock_node_detail
 from app.services.mastery_engine import update_mastery, get_mastery_threshold
 from app.services.unlock_engine import propagate_unlocks
@@ -25,6 +56,7 @@ def submit_quiz(node_id: str, payload: QuizRequest, db: Session = Depends(get_db
     to update node mastery (p_mastery), logs an EvidenceEvent, and triggers graph unlock
     propagation if the node crosses the mastery threshold.
     """
+<<<<<<< HEAD
     # 1. Determine quiz outcome (correct/incorrect) from request payload
     answers = payload.answers or {}
     if "correct" in answers:
@@ -38,6 +70,10 @@ def submit_quiz(node_id: str, payload: QuizRequest, db: Session = Depends(get_db
     newly_unlocked: List[str] = []
 
     # 2. Try fetching live node from database
+=======
+    newly_unlocked: List[str] = []
+
+>>>>>>> main
     db_node = None
     try:
         db_node = db.query(Node).filter(Node.id == node_id).first()
@@ -45,13 +81,21 @@ def submit_quiz(node_id: str, payload: QuizRequest, db: Session = Depends(get_db
         db_node = None
 
     if db_node:
+<<<<<<< HEAD
         # HARDENING: Reject assessment submission on locked nodes
+=======
+>>>>>>> main
         if db_node.status == "locked":
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Cannot submit assessment for locked node '{node_id}'. Master prerequisite nodes first to unlock."
             )
 
+<<<<<<< HEAD
+=======
+        correct, raw_score = grade_quiz_answers(db_node.quiz_questions, payload.answers)
+
+>>>>>>> main
         try:
             # Save Evidence Event log
             event = EvidenceEvent(
@@ -90,7 +134,10 @@ def submit_quiz(node_id: str, payload: QuizRequest, db: Session = Depends(get_db
         current_status = db_node.status
         final_p_mastery = db_node.p_mastery
     else:
+<<<<<<< HEAD
         # Fallback / In-Memory Mock Node for Phase 1 compatibility
+=======
+>>>>>>> main
         mock_raw = get_mock_node_detail(node_id)
         mock_obj = type("MockNode", (), mock_raw)()
 
@@ -100,6 +147,10 @@ def submit_quiz(node_id: str, payload: QuizRequest, db: Session = Depends(get_db
                 detail=f"Cannot submit assessment for locked node '{node_id}'. Master prerequisite nodes first to unlock."
             )
 
+<<<<<<< HEAD
+=======
+        correct, raw_score = grade_quiz_answers(mock_raw.get("quiz_questions"), payload.answers)
+>>>>>>> main
         final_p_mastery = update_mastery(mock_obj, correct=correct)
         threshold = get_mastery_threshold()
         current_status = "mastered" if final_p_mastery >= threshold else getattr(mock_obj, "status", "available")

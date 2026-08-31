@@ -34,6 +34,10 @@ class Node(Base):
     description = Column(Text, nullable=True)
     rubric = Column(JSON_TYPE, nullable=True)
     resources = Column(JSON_TYPE, nullable=True)
+<<<<<<< HEAD
+=======
+    quiz_questions = Column(JSON_TYPE, nullable=True)
+>>>>>>> main
     status = Column(String(50), nullable=False, default="locked")  # locked | available | mastered
     p_init = Column(Float, nullable=False, default=0.1)
     p_transit = Column(Float, nullable=False, default=0.1)

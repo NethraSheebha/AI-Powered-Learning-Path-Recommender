@@ -21,15 +21,33 @@ def create_learning_goal(payload: GoalRequest, db: Session = Depends(get_db)):
     except Exception:
         learner = None
 
+<<<<<<< HEAD
     if not learner:
         learner = Learner(
             id=payload.learner_id,
             name="Learner Profile",
+=======
+    display_name = (payload.name or "").strip()
+
+    if not learner:
+        learner = Learner(
+            id=payload.learner_id,
+            name=display_name or "Learner Profile",
+>>>>>>> main
             goal_text=payload.goal_text,
             created_at=datetime.now(timezone.utc)
         )
         db.add(learner)
         db.commit()
+<<<<<<< HEAD
+=======
+    else:
+        if display_name:
+            learner.name = display_name
+        learner.goal_text = payload.goal_text
+        db.add(learner)
+        db.commit()
+>>>>>>> main
 
     # 2. Generate and persist graph in DB
     graph = generate_graph_from_goal(payload.goal_text, payload.learner_id, db)

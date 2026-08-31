@@ -1,3 +1,10 @@
+# Node & Frontend Dependencies
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+*.log
+
 # Python & Bytecode
 __pycache__/
 *.py[cod]
@@ -16,7 +23,8 @@ ENV/
 *.db
 *.sqlite3
 
-# Pytest & Cache
+# Pytest, Cache & Temporary Test Screenshots
 .pytest_cache/
 .coverage
 htmlcov/
+*.png

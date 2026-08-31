@@ -55,6 +55,15 @@ def test_generate_graph_from_goal_persists_nodes_and_edges(db_session):
         assert node.p_transit == 0.1
         assert node.p_slip == 0.1
         assert node.p_guess == 0.2
+<<<<<<< HEAD
+=======
+        assert node.quiz_questions
+        assert 3 <= len(node.quiz_questions) <= 4
+        for q in node.quiz_questions:
+            assert "correct_option_index" in q
+            assert "prompt" in q
+            assert len(q["options"]) >= 2
+>>>>>>> main
 
     # Query edges created in DB
     edges_in_db = db_session.query(Edge).filter(Edge.graph_id == graph.id).all()

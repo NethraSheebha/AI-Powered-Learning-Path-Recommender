@@ -29,6 +29,29 @@ MOCK_NODES = [
                 "description": "Efficient use of lists, dicts, sets, and list comprehensions."
             }
         ],
+<<<<<<< HEAD
+=======
+        "quiz_questions": [
+            {
+                "id": "q1",
+                "prompt": "Which type is mutable in Python?",
+                "options": ["tuple", "list", "str", "int"],
+                "correct_option_index": 1,
+            },
+            {
+                "id": "q2",
+                "prompt": "What keyword defines a function?",
+                "options": ["func", "def", "fn", "lambda only"],
+                "correct_option_index": 1,
+            },
+            {
+                "id": "q3",
+                "prompt": "Which construct handles expected failures?",
+                "options": ["goto", "try/except", "eval", "execfile"],
+                "correct_option_index": 1,
+            },
+        ],
+>>>>>>> main
         "resources": [
             {
                 "title": "Official Python 3 Documentation",

@@ -4,7 +4,20 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class GoalRequest(BaseModel):
     learner_id: str = Field(..., example="learner-123-uuid")
+<<<<<<< HEAD
     goal_text: str = Field(..., example="Become a Backend Developer")
+=======
+    name: Optional[str] = Field(None, example="Alex")
+    goal_text: str = Field(..., example="Become a Backend Developer")
+    experience_level: Optional[str] = Field(None, example="Complete beginner")
+
+
+class QuizQuestionPublic(BaseModel):
+    """Quiz item as returned to the client — never includes the correct index."""
+    id: str
+    prompt: str
+    options: List[str]
+>>>>>>> main
 
 class RubricItem(BaseModel):
     id: str
@@ -31,6 +44,11 @@ class NodeResponse(BaseModel):
     p_mastery: float
     rubric: Optional[List[Dict[str, Any]]] = None
     resources: Optional[List[Dict[str, Any]]] = None
+<<<<<<< HEAD
+=======
+    quiz_questions: Optional[List[QuizQuestionPublic]] = None
+    evidence_count: Optional[int] = None
+>>>>>>> main
 
     model_config = ConfigDict(from_attributes=True)
 
