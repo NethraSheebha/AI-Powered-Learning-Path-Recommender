@@ -18,16 +18,20 @@ export default function GraphView() {
   const isLoading = useStore((s) => s.isLoading);
   const setLoading = useStore((s) => s.setLoading);
   const setError = useStore((s) => s.setError);
+  const startNewGoal = useStore((s) => s.startNewGoal);
 
-  /* If we navigated directly to /graph/:id but don't have data, fetch it */
+  /* Fetch graph data if navigating directly or missing in store */
   useEffect(() => {
     const targetId = routeGraphId || graphId;
     if (!targetId) {
-      navigate('/');
+      navigate('/?new=1');
       return;
     }
 
-    if (graphData && graphId === targetId) return; // Already have data
+    if (graphData && graphId === targetId) {
+      setLoading(false);
+      return;
+    }
 
     let cancelled = false;
     setLoading(true);
@@ -40,13 +44,16 @@ export default function GraphView() {
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err.message);
-        navigate('/');
+        startNewGoal(); // Reset stale localStorage graph ID
+        setError(err.message || 'Graph not found. Please chart a new goal.');
+        navigate('/?new=1');
       })
-      .finally(() => { if (!cancelled) setLoading(false); });
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
 
     return () => { cancelled = true; };
-  }, [routeGraphId, graphId, graphData, setGraphData, setGoalText, setLoading, setError, navigate]);
+  }, [routeGraphId, graphId, graphData, setGraphData, setGoalText, setLoading, setError, startNewGoal, navigate]);
 
   const handleNodeClick = useCallback((node) => {
     selectNode(node.id, node);
