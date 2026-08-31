@@ -21,13 +21,21 @@ def create_learning_goal(payload: GoalRequest, db: Session = Depends(get_db)):
     except Exception:
         learner = None
 
+    display_name = (payload.name or "").strip()
+
     if not learner:
         learner = Learner(
             id=payload.learner_id,
-            name="Learner Profile",
+            name=display_name or "Learner Profile",
             goal_text=payload.goal_text,
             created_at=datetime.now(timezone.utc)
         )
+        db.add(learner)
+        db.commit()
+    else:
+        if display_name:
+            learner.name = display_name
+        learner.goal_text = payload.goal_text
         db.add(learner)
         db.commit()
 

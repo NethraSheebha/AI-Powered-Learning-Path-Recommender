@@ -6,9 +6,11 @@ from app.schemas.graph import (
     GraphResponse,
     RubricItem,
     ResourceItem,
+    QuizQuestionPublic,
 )
 from app.schemas.evidence import (
     QuizRequest,
+    QuizAnswerItem,
     QuizResponse,
     ProjectSubmitRequest,
     ProjectSubmitResponse,
@@ -29,6 +31,8 @@ __all__ = [
     "GraphResponse",
     "RubricItem",
     "ResourceItem",
+    "QuizQuestionPublic",
+    "QuizAnswerItem",
     "QuizRequest",
     "QuizResponse",
     "ProjectSubmitRequest",

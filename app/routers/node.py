@@ -10,12 +10,61 @@ from app.services.explanation_interface import generate_explanation
 
 router = APIRouter(prefix="", tags=["Nodes & Explanations"])
 
+
+def _public_node_payload(node: Node) -> dict:
+    """Serialize a node for the API without leaking correct_option_index."""
+    questions = []
+    for q in node.quiz_questions or []:
+        if not isinstance(q, dict):
+            continue
+        questions.append({
+            "id": q.get("id"),
+            "prompt": q.get("prompt"),
+            "options": q.get("options") or [],
+        })
+    return {
+        "id": node.id,
+        "graph_id": node.graph_id,
+        "label": node.label,
+        "description": node.description,
+        "status": node.status,
+        "p_init": node.p_init,
+        "p_transit": node.p_transit,
+        "p_slip": node.p_slip,
+        "p_guess": node.p_guess,
+        "p_mastery": node.p_mastery,
+        "rubric": node.rubric,
+        "resources": node.resources,
+        "quiz_questions": questions,
+        "evidence_count": len(node.evidence_events or []),
+    }
+
+
 @router.get("/node/{node_id}", response_model=NodeResponse, status_code=status.HTTP_200_OK)
-def get_node_detail(node_id: str):
+def get_node_detail(node_id: str, db: Session = Depends(get_db)):
     """
-    Fetches detailed metadata for a single node, including resources, grading rubric, and status.
+    Fetches detailed metadata for a single node, including resources, rubric, and quiz prompts.
+    Correct answers are never included in this payload.
     """
-    return get_mock_node_detail(node_id)
+    db_node = None
+    try:
+        db_node = db.query(Node).filter(Node.id == node_id).first()
+    except Exception:
+        db_node = None
+
+    if db_node:
+        return _public_node_payload(db_node)
+
+    mock = dict(get_mock_node_detail(node_id))
+    stripped = []
+    for q in mock.get("quiz_questions") or []:
+        stripped.append({
+            "id": q.get("id"),
+            "prompt": q.get("prompt"),
+            "options": q.get("options") or [],
+        })
+    mock["quiz_questions"] = stripped
+    return mock
 
 @router.get("/explain/{node_id}", response_model=ExplainResponse, status_code=status.HTTP_200_OK)
 def explain_node(

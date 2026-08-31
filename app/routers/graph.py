@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.database import get_db
+from app.models.graph import Graph
 from app.models.graph_diff import GraphDiff
 from app.schemas.graph import GraphResponse
 from app.schemas.dashboard import GraphDiffResponse
@@ -14,10 +15,19 @@ from app.mocks.mock_data import (
 router = APIRouter(prefix="", tags=["Graph State & Diffs"])
 
 @router.get("/graph/{graph_id}", response_model=GraphResponse, status_code=status.HTTP_200_OK)
-def get_graph(graph_id: str):
+def get_graph(graph_id: str, db: Session = Depends(get_db)):
     """
     Fetches the full learning path graph state including nodes, edges, and node statuses.
     """
+    db_graph = None
+    try:
+        db_graph = db.query(Graph).filter(Graph.id == graph_id).first()
+    except Exception:
+        db_graph = None
+
+    if db_graph:
+        return db_graph
+
     mock_data = get_mock_graph_response(
         learner_id=MOCK_LEARNER_ID,
         goal_text="Become a Backend Developer"
