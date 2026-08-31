@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from app.models.graph import Graph, Node, Edge
 from app.services.mastery_engine import initialize_node_bkt_params
 
+<<<<<<< HEAD
+=======
 
 def _quiz_bank_for_node(label: str, description: str) -> list:
     """Stub 3–4 multiple-choice questions keyed to the node's topic. Not LLM-generated."""
@@ -142,6 +144,7 @@ def _quiz_bank_for_node(label: str, description: str) -> list:
         },
     ]
 
+>>>>>>> main
 # STUB: Member 3 will replace internals only, do not change signature
 def generate_graph_from_goal(goal_text: str, learner_id: str, db: Session) -> Graph:
     """
@@ -172,36 +175,52 @@ def generate_graph_from_goal(goal_text: str, learner_id: str, db: Session) -> Gr
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: Core Fundamentals",
             "description": "Master basic syntax, foundational data structures, and environmental setup.",
+<<<<<<< HEAD
+            "status": "available",  # First node with no prerequisites is available
+=======
             "status": "available",
             "resource_url": "https://developer.mozilla.org/en-US/docs/Learn",
+>>>>>>> main
         },
         {
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: Core Concepts & Protocols",
             "description": "Understand communication protocols, APIs, and key programmatic abstractions.",
             "status": "locked",
+<<<<<<< HEAD
+=======
             "resource_url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview",
+>>>>>>> main
         },
         {
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: Data Persistence & SQL",
             "description": "Design relational schemas, manage databases, and optimize query execution.",
             "status": "locked",
+<<<<<<< HEAD
+=======
             "resource_url": "https://www.postgresql.org/docs/current/tutorial-sql.html",
+>>>>>>> main
         },
         {
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: Advanced Frameworks & Services",
             "description": "Build production-grade web services with dependency injection and error handling.",
             "status": "locked",
+<<<<<<< HEAD
+=======
             "resource_url": "https://fastapi.tiangolo.com/tutorial/",
+>>>>>>> main
         },
         {
             "id": f"node-{uuid.uuid4().hex[:6]}",
             "label": f"{clean_goal}: System Capstone Project",
             "description": "Implement a full end-to-end distributed system matching industry standards.",
             "status": "locked",
+<<<<<<< HEAD
+=======
             "resource_url": "https://github.com/topics/full-stack",
+>>>>>>> main
         },
     ]
 
@@ -226,11 +245,18 @@ def generate_graph_from_goal(goal_text: str, learner_id: str, db: Session) -> Gr
             }],
             resources=[{
                 "title": f"Guide to {tpl['label']}",
+<<<<<<< HEAD
+                "url": "https://docs.ai-learning-path.ai/guide",
+                "type": "documentation",
+                "duration_minutes": 60
+            }]
+=======
                 "url": tpl.get("resource_url", "https://developer.mozilla.org/en-US/docs/Learn"),
                 "type": "documentation",
                 "duration_minutes": 60
             }],
             quiz_questions=_quiz_bank_for_node(tpl["label"], tpl["description"]),
+>>>>>>> main
         )
         # Initialize BKT parameters using mastery_engine service function
         initialize_node_bkt_params(node)

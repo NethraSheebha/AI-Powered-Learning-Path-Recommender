@@ -62,10 +62,14 @@ def test_locked_node_assessment_validation_returns_400():
     client = TestClient(app)
 
     # 1. Submit quiz on locked node -> Must return 400 Bad Request
+<<<<<<< HEAD
+    r_quiz = client.post("/quiz/node-locked-100", json={"learner_id": "l-lock-1", "answers": {"correct": True}})
+=======
     r_quiz = client.post("/quiz/node-locked-100", json={
         "learner_id": "l-lock-1",
         "answers": [{"question_id": "q1", "selected_option_index": 0}],
     })
+>>>>>>> main
     assert r_quiz.status_code == 400
     assert "locked node" in r_quiz.json()["detail"].lower()
 

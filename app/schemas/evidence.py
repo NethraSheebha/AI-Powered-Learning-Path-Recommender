@@ -2,6 +2,11 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 from pydantic import BaseModel, Field
 
+<<<<<<< HEAD
+class QuizRequest(BaseModel):
+    learner_id: str = Field(..., example="learner-123-uuid")
+    answers: Dict[str, Any] = Field(..., example={"q1": "option_a", "q2": "option_c"})
+=======
 
 class QuizAnswerItem(BaseModel):
     question_id: str = Field(..., example="q1")
@@ -14,6 +19,7 @@ class QuizRequest(BaseModel):
         ...,
         example=[{"question_id": "q1", "selected_option_index": 1}],
     )
+>>>>>>> main
 
 class QuizResponse(BaseModel):
     node_id: str

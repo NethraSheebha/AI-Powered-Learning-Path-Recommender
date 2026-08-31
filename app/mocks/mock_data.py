@@ -29,6 +29,8 @@ MOCK_NODES = [
                 "description": "Efficient use of lists, dicts, sets, and list comprehensions."
             }
         ],
+<<<<<<< HEAD
+=======
         "quiz_questions": [
             {
                 "id": "q1",
@@ -49,6 +51,7 @@ MOCK_NODES = [
                 "correct_option_index": 1,
             },
         ],
+>>>>>>> main
         "resources": [
             {
                 "title": "Official Python 3 Documentation",

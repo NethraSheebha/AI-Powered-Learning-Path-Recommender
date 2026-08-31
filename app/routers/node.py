@@ -10,6 +10,14 @@ from app.services.explanation_interface import generate_explanation
 
 router = APIRouter(prefix="", tags=["Nodes & Explanations"])
 
+<<<<<<< HEAD
+@router.get("/node/{node_id}", response_model=NodeResponse, status_code=status.HTTP_200_OK)
+def get_node_detail(node_id: str):
+    """
+    Fetches detailed metadata for a single node, including resources, grading rubric, and status.
+    """
+    return get_mock_node_detail(node_id)
+=======
 
 def _public_node_payload(node: Node) -> dict:
     """Serialize a node for the API without leaking correct_option_index."""
@@ -65,6 +73,7 @@ def get_node_detail(node_id: str, db: Session = Depends(get_db)):
         })
     mock["quiz_questions"] = stripped
     return mock
+>>>>>>> main
 
 @router.get("/explain/{node_id}", response_model=ExplainResponse, status_code=status.HTTP_200_OK)
 def explain_node(
